@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reducing Agricultural Water Overuse</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #065f46; /* Deep Forest Green */
+      --primary-light: #059669; /* Lighter Green for hover */
+      --accent: #d1fae5; /* Pale Sage */
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --bg-light: #ffffff;
+      --bg-off-white: #f9fafb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-off-white);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Top Banner Image (Moved from Head to Body) */
+    .top-banner {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Navbar - Glassmorphism style */
+    nav {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 5%;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    nav .logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+
+    /* Navbar buttons - Clean Minimalist */
+    .nav-btn {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--primary);
+    }
+
+    /* Login button */
+    .login-btn {
+      background: var(--primary);
+      color: white !important;
+      padding: 10px 24px;
+      border-radius: 50px; /* Pill shape */
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .login-btn:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(6, 95, 70, 0.2);
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    /* Background images slideshow */
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      animation: slideShow 18s infinite;
+      z-index: -2;
+      filter: saturate(0.8); /* Slightly desaturated for modern look */
+    }
+
+    /* Dark overlay - Gradient for better text readablity */
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+      z-index: -1;
+    }
+
+    @keyframes slideShow {
+      0%   { background-image: url('static/agriculture1.jpg'); }
+      33%  { background-image: url('static/agriculture2.jpg'); }
+      66%  { background-image: url('static/agriculture3.jpg'); }
+      100% { background-image: url('static/agriculture1.jpg'); }
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -1px;
+      animation: fadeInDown 1.5s ease;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+      font-weight: 300;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    /* Modern Buttons */
+    .hero .btn {
+      padding: 14px 32px;
+      margin: 0 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+      font-size: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: 2px solid var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      border-color: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+    }
+
+    .btn-secondary:hover {
+      background: white;
+      color: var(--primary);
+      border-color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* About Section */
+    .about {
+      max-width: 900px;
+      margin: 100px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .about h2 {
+      margin-bottom: 20px;
+      font-size: 2.2rem;
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+
+    .about p {
+      font-size: 1.15rem;
+      color: var(--text-light);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+    
+    .about strong {
+        color: var(--primary);
+        font-weight: 600;
+    }
+
+    /* Features Section */
+    .features {
+      background: var(--bg-light);
+      padding: 100px 20px;
+      position: relative;
+    }
+
+    .features h2 {
+      text-align: center;
+      margin-bottom: 60px;
+      color: var(--text-dark);
+      font-size: 2.2rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 16px;
+      padding: 40px 30px;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+
+    .card:hover {
+      border-color: var(--primary-light);
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: var(--text-dark);
+      font-size: 1.4rem;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    /* Small decorative line under card titles */
+    .card h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+    }
+
+    .card p {
+      font-size: 1rem;
+      margin-bottom: 0;
+      color: var(--text-light);
+    }
+
+    /* CTA Section */
+    .cta {
+      background: var(--primary);
+      color: #fff;
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .cta h2 {
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+    }
+
+    .cta .btn {
+        background: white;
+        color: var(--primary);
+        padding: 15px 40px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-block;
+        transition: transform 0.2s;
+    }
+    
+    .cta .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Footer */
+    footer {
+      background: #111827; /* Very dark grey */
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="static/header_image.jpg" 
+       alt="Header Image" 
+       class="top-banner">
+
+  <nav>
+    <div class="logo">Water Overuse Prediction</div>
+    <ul>
+      <li><a href="#" class="nav-btn">About</a></li>
+      <li><a href="models.html" class="nav-btn">Models</a></li>
+     <!-- <li><a href="contact.html" class="nav-btn">Contact</a></li>-->
+      <li><a href="form.html" class="nav-btn login-btn">Login Form</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Reducing Agricultural Water Overuse</h1>
+      <p>Leveraging Nash Equilibrium and Machine Learning models to optimize irrigation, conserve resources, and ensure sustainable agriculture.</p>
+      <a href="models.html" class="btn btn-primary">Explore Models</a>
+      <a href="#" class="btn btn-secondary">Learn More</a>
+    </div>
+  </section>
+
+  <section class="about">
+    <h2>About the Project</h2>
+    <p>
+      This project aims to address one of the most pressing issues in agriculture—overuse of water resources. 
+      By integrating <strong>Nash Equilibrium principles</strong> with <strong>Machine Learning models</strong>, 
+      our system predicts water requirements more accurately and promotes smarter irrigation practices. 
+      The goal is to balance productivity with sustainability, ensuring that farmers and the environment both benefit.
+    </p>
+  </section>
+
+  <section class="features">
+    <h2>Our Approach</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Nash Equilibrium</h3>
+        <p>Game-theory-based strategies that ensure optimal water distribution among competing agricultural demands.</p>
+      </div>
+      <div class="card">
+        <h3>Machine Learning Models</h3>
+        <p>Advanced algorithms to predict crop water needs based on soil, weather, and crop data.</p>
+      </div>
+      <div class="card">
+        <h3>Sustainability Impact</h3>
+        <p>Reducing water waste while maintaining crop yields, leading to long-term agricultural resilience.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Be Part of Sustainable Agriculture</h2>
+    <a href="#" class="btn">Get Started</a>
+  </section>
+
+  <footer>
+    © 2025 Water Overuse Prediction Project | All Rights Reserved
+  </footer>
+
+</body>
+</html>

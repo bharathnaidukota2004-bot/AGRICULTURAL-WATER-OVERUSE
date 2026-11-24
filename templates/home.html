@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ML Models Comparison Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #f2f5fa;
+        }
+        .header {
+            background: #275eda;
+            color: #fff;
+            padding: 32px 0 20px 0;
+            text-align: center;
+            border-bottom: 2px solid #eaeaea;
+            box-shadow: 0 2px 18px rgba(40,80,255,0.12);
+        }
+        .header h1 {
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 1.15rem;
+            color: #cbe9fb;
+        }
+        .main-wrapper {
+            max-width: 1180px;
+            margin: 36px auto 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 38px rgba(50,60,90,0.10);
+            display: flex;
+            min-height: 70vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            min-width: 260px;
+            background: #171a23;
+            color: #fff;
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sidebar img {
+            width: 72px;
+            margin-bottom: 20px;
+        }
+        .sidebar h2 {
+            margin-bottom: 24px;
+            font-size: 1.25rem;
+            color: #5194ff;
+        }
+        .sidebar label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        .sidebar select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1.5px solid #dde2ee;
+            background: #f4f7ff;
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+        .sidebar .run-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #3c87ff 0%, #467aec 100%);
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 13px 0;
+            cursor: pointer;
+            margin-bottom: 14px;
+            box-shadow: 0 2px 12px rgba(50,90,200,0.045);
+            transition: background 0.18s;
+        }
+        .sidebar .run-btn:hover {
+            background: #2548a9;
+        }
+        .sidebar .error {
+            color: #ff6060;
+            font-size: 15px;
+            margin: 10px 0 0 0;
+            text-align: center;
+        }
+        .sidebar .signin {
+            margin-top: auto;
+            margin-bottom: 16px;
+            background: #539bdf;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 15px;
+            padding: 11px 0;
+            width: 100%;
+            box-shadow: 0 2px 8px rgba(30,60,170,0.08);
+        }
+        .sidebar .signin:hover {
+            background: #295faa;
+        }
+        .content {
+            flex: 1;
+            padding: 38px 44px 36px 48px;
+            background: #f4f8fc;
+            overflow-y: auto;
+            min-height: 70vh;
+        }
+        .graph {
+            background: #fff;
+            border-radius: 13px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+            margin-bottom: 34px;
+            padding: 28px;
+            text-align: center;
+        }
+        .graph h3 {
+            color: #3486fd;
+            margin-bottom: 12px;
+        }
+        .graph img {
+            width: 70%;
+            max-width: 540px;
+            min-width: 210px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(40,80,255,0.09);
+            margin-top: 14px;
+            background: #eef6ff;
+            padding: 7px;
+            transition: box-shadow 0.3s;
+        }
+        .graph img:empty {
+            background: transparent;
+        }
+        .value {
+            background: #fff;
+            border-radius: 13px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            margin-bottom: 14px;
+            padding: 28px;
+            text-align: center;
+        }
+        .value h3 {
+            color: #228440;
+            margin-bottom: 12px;
+        }
+        .value .score-container {
+            margin-top: 8px;
+        }
+        #score-value {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #3486fd;
+        }
+        .loader {
+            display: none;
+            margin: 38px auto;
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #275eda;
+            border-radius: 50%;
+            width: 58px;
+            height: 58px;
+            animation: spinLoader 0.9s linear infinite;
+        }
+        @keyframes spinLoader {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .best-block {
+            background: #e9ffe9;
+            border-radius: 9px;
+            color: #228440;
+            font-size: 1rem;
+            padding: 9px 16px;
+            margin-bottom: 22px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        @media(max-width:1150px){
+            .main-wrapper { flex-direction: column; }
+            .sidebar { min-width: unset; width: 100%; border-right:none; border-bottom:1px solid #dde2ee;}
+            .content { padding: 24px 12px;}
+            .graph img { width:94%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="{{ url_for('static', filename='header_image.jpg') }}" alt="CMR Logo" style="height:48px; margin-bottom:10px;">
+        <h1><i class="fa fa-chart-line"></i> ML Model Dashboard</h1>
+        <p>Compare, evaluate, and visualize machine learning models interactively</p>
+    </div>
+    <div class="main-wrapper">
+        <div class="sidebar">
+            <img src="{{ url_for('static', filename='cmr_logo.png') }}" alt="Sidebar Logo">
+            <h2><i class="fa fa-brain"></i> ML Algorithms</h2>
+            <label for="model-select">Select Model:</label>
+            <select id="model-select">
+                <option value="">-- Choose ML Algorithm --</option>
+                {% for model in models %}
+                    <option value="{{ model }}">{{ model.replace('_', ' ').title() }}</option>
+                {% endfor %}
+            </select>
+            <button class="run-btn" id="run-btn"><i class="fa fa-play"></i> Run Model</button>
+            <div id="error-msg" class="error"></div>
+            <a href="{{ url_for('form') }}" class="signin"><i class="fa fa-user"></i> Sign In</a>
+        </div>
+        <div class="content">
+            <div id="best-model-block" class="best-block" style="display:none;">
+                <i class="fa fa-trophy"></i> <span id="best-model"></span> is the top performer!
+            </div>
+            <div class="loader" id="loader"></div>
+            <div class="graph"><h3>ROC Curve</h3><img id="roc-image" src="" alt="ROC Curve"></div>
+            <div class="graph"><h3>Accuracy Graph</h3><img id="acc-image" src="" alt="Accuracy Graph"></div>
+            <div class="graph"><h3>Confusion Matrix</h3><img id="cm-image" src="" alt="Confusion Matrix"></div>
+            <div class="value">
+                <h3>Accuracy Score</h3>
+                <div class="score-container"><span id="score-value">0%</span></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // UI selectors
+        const runBtn = document.getElementById('run-btn');
+        const modelSelect = document.getElementById('model-select');
+        const loader = document.getElementById('loader');
+        const errorMsg = document.getElementById('error-msg');
+        const rocImg = document.getElementById('roc-image');
+        const accImg = document.getElementById('acc-image');
+        const cmImg = document.getElementById('cm-image');
+        const scoreVal = document.getElementById('score-value');
+        const bestBlock = document.getElementById('best-model-block');
+        const bestModelSpan = document.getElementById('best-model');
+
+        function displayLoading(loading) {
+            loader.style.display = loading ? 'block' : 'none';
+            rocImg.style.opacity = accImg.style.opacity = cmImg.style.opacity = loading ? '0.1' : '1';
+        }
+
+        runBtn.addEventListener('click', function () {
+            const model = modelSelect.value;
+            if (!model) {
+                errorMsg.textContent = 'Please select a machine learning model!';
+                return;
+            }
+            errorMsg.textContent = '';
+            displayLoading(true);
+            fetch(`/run_model/${encodeURIComponent(model)}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Graphs not found for this algorithm');
+                    return response.json();
+                })
+                .then(data => {
+                    rocImg.src = data.roc || '';
+                    accImg.src = data.accuracy_graph || '';
+                    cmImg.src = data.confusion_matrix || '';
+                    scoreVal.textContent = (data.accuracy_score * 100).toFixed(2) + '%';
+                    // If the backend sends `best_model`, show it
+                    if (data.best_model) {
+                        bestBlock.style.display = 'inline-block';
+                        bestModelSpan.textContent = data.best_model.replace('_', ' ');
+                    } else {
+                        bestBlock.style.display = 'none';
+                    }
+                    displayLoading(false);
+                })
+                .catch(error => {
+                    rocImg.src = '';
+                    accImg.src = '';
+                    cmImg.src = '';
+                    scoreVal.textContent = '0%';
+                    errorMsg.textContent = error.message;
+                    displayLoading(false);
+                });
+        });
+    </script>
+</body>
+</html>

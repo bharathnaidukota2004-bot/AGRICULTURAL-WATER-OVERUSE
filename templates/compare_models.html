@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Models</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            background: #f8f9fa url('{{ url_for("static", filename="images/background.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #343a40;
+        }
+        select {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        img {
+            display: block;
+            margin: auto;
+            max-width: 90%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 5px;
+            background: white;
+        }
+        .graph-container {
+            margin-bottom: 30px;
+        }
+        .label {
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Compare Machine Learning Models</h1>
+
+    <!-- Dropdown to select model -->
+    <label for="model-select">Select a Model:</label>
+    <select id="model-select" onchange="loadGraphs()">
+        <option value="">-- Select a Model --</option>
+        {% for model in models %}
+        <option value="{{ model }}">{{ model }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- ROC Curve -->
+    <div class="graph-container">
+        <div class="label">ROC Curve</div>
+        <img id="roc-image" src="" alt="ROC Curve will appear here">
+    </div>
+
+    <!-- Accuracy Graph -->
+    <div class="graph-container">
+        <div class="label">Accuracy Graph</div>
+        <img id="acc-image" src="" alt="Accuracy Graph will appear here">
+    </div>
+</div>
+
+<script>
+    function loadGraphs() {
+        const model = document.getElementById('model-select').value;
+        if (!model) {
+            document.getElementById('roc-image').src = "";
+            document.getElementById('acc-image').src = "";
+            return;
+        }
+
+        fetch(`/get_graphs/${model}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Graphs not found for selected model");
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('roc-image').src = data.roc;
+                document.getElementById('acc-image').src = data.accuracy;
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('roc-image').src = "";
+                document.getElementById('acc-image').src = "";
+            });
+    }
+</script>
+
+</body>
+</html>

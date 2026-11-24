@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About – Water Prediction</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary:#275eda;
+      --accent:#3c87ff;
+      --light:#eef3fc;
+      --bg:#f7f9fc;
+      --text:#2d2d2d;
+      --muted:#6f6f6f;
+      --card:#ffffff;
+    }
+
+    body {
+      margin:0;
+      font-family:'Inter', sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background:white;
+      padding:18px 50px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #e3e8f1;
+      box-shadow:0 4px 12px rgba(0,0,0,0.05);
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-size:1.25rem;
+      font-weight:700;
+      color:var(--primary);
+    }
+    .brand img {
+      height:38px;
+    }
+    .nav-links a {
+      margin-left:26px;
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:500;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      max-width:1100px;
+      margin:60px auto 30px;
+      padding:0 40px;
+      text-align:center;
+    }
+
+    .hero h1 {
+      font-size:2.4rem;
+      font-weight:700;
+      color:var(--primary);
+      margin-bottom:14px;
+    }
+
+    .hero p {
+      font-size:1.1rem;
+      color:var(--muted);
+      max-width:750px;
+      margin:12px auto;
+      line-height:1.6;
+    }
+
+    /* CONTENT SECTION */
+    .section {
+      max-width:1100px;
+      margin:50px auto;
+      padding:0 40px;
+    }
+
+    .section h2 {
+      font-size:1.7rem;
+      font-weight:700;
+      color:#222;
+      margin-bottom:16px;
+    }
+
+    .section p {
+      font-size:1rem;
+      line-height:1.7;
+      color:var(--muted);
+      margin-bottom:16px;
+    }
+
+    /* FEATURE GRID */
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+      gap:26px;
+      margin-top:20px;
+    }
+
+    .card {
+      background:white;
+      padding:26px;
+      border-radius:16px;
+      box-shadow:0 4px 18px rgba(0,0,0,0.06);
+      transition:0.25s;
+    }
+
+    .card:hover { transform:translateY(-6px); }
+
+    .card h3 {
+      color:var(--primary);
+      font-size:1.2rem;
+      margin-bottom:8px;
+    }
+
+    .card p {
+      font-size:0.95rem;
+      color:var(--muted);
+      line-height:1.6;
+    }
+
+    /* TEAM SECTION */
+    .team-section {
+      max-width:1100px;
+      margin:60px auto;
+      padding:0 40px;
+    }
+
+    .team-title {
+      font-size:1.8rem;
+      font-weight:700;
+      text-align:center;
+      color:var(--primary);
+      margin-bottom:35px;
+    }
+
+    .team-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+      gap:24px;
+    }
+
+    .team-card {
+      background:white;
+      padding:26px;
+      border-radius:16px;
+      box-shadow:0 4px 18px rgba(0,0,0,0.06);
+      text-align:center;
+      transition:0.25s;
+    }
+
+    .team-card:hover { transform:translateY(-6px); }
+
+    .team-icon {
+      width:70px;
+      height:70px;
+      background:var(--light);
+      border-radius:50%;
+      margin:0 auto;
+      font-size:2rem;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--primary);
+      font-weight:700;
+    }
+
+    .team-card h3 {
+      margin-top:12px;
+      font-size:1.2rem;
+      font-weight:600;
+    }
+
+    .team-card p {
+      margin-top:6px;
+      color:var(--muted);
+      font-size:0.95rem;
+    }
+
+    /* FOOTER */
+    footer {
+      margin-top:60px;
+      padding:30px;
+      text-align:center;
+      color:var(--muted);
+      background:white;
+      border-top:1px solid #e3e8f1;
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="brand">
+    <img src="{{ url_for('static', filename='cmr_logo.png') }}">
+    Water Prediction
+  </div>
+
+  <div class="nav-links">
+    <a href="{{ url_for('homepage') }}">Home</a>
+    <a href="{{ url_for('models_page') }}">Models</a>
+    <a href="{{ url_for('form_page') }}">Form</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>About the Project</h1>
+  <p>
+    A Machine Learning powered system that predicts agricultural water usage using  
+    real-world environmental features and Nash Equilibrium strategies.
+  </p>
+</div>
+
+<!-- PROJECT OVERVIEW -->
+<div class="section">
+  <h2>Project Overview</h2>
+  <p>
+    This project aims to address the growing challenge of agricultural water overuse in India.  
+    By combining Machine Learning models with principles of Nash Equilibrium, the system  
+    predicts optimal irrigation and water distribution requirements.
+  </p>
+
+  <p>
+    The model analyzes factors such as soil moisture, rainfall, groundwater levels, crop water  
+    requirements, and temperature to determine whether water usage is optimal, underused, or overused.
+  </p>
+</div>
+
+<!-- FEATURES / TECH STACK -->
+<div class="section">
+  <h2>Key Components</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Machine Learning Models</h3>
+      <p>
+        18+ supervised learning models are used for prediction and performance comparison.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Nash Equilibrium Logic</h3>
+      <p>
+        Ensures fair and optimal distribution between multiple competing farms.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Data Preprocessing</h3>
+      <p>
+        Includes label encoding, missing value handling, and auto-calculation of Nash Payoff.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Interactive Predictions</h3>
+      <p>
+        Users can input real farming data through a simple form to get personalized predictions.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- TEAM SECTION -->
+<div class="team-section">
+  <div class="team-title">Meet Our Team</div>
+
+  <div class="team-grid">
+
+    <div class="team-card">
+      <div class="team-icon">A</div>
+      <h3>Team Member 1</h3>
+      <p>ML Engineer</p>
+    </div>
+
+    <div class="team-card">
+      <div class="team-icon">B</div>
+      <h3>Team Member 2</h3>
+      <p>Data Analyst</p>
+    </div>
+
+    <div class="team-card">
+      <div class="team-icon">C</div>
+      <h3>Team Member 3</h3>
+      <p>Developer</p>
+    </div>
+
+    <div class="team-card">
+      <div class="team-icon">G</div>
+      <h3>Project Guide</h3>
+      <p>Faculty Mentor</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  © 2025 Water Overuse Prediction Project — All Rights Reserved
+</footer>
+
+</body>
+</html>

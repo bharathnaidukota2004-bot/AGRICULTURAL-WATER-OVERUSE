@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All ROC Curves</title>
+</head>
+<body>
+    <h1>All ROC Curves</h1>
+    {% for model, path in graphs.items() %}
+        <h3>{{ model }}</h3>
+        <img src="{{ url_for('static', filename='graphs/' + model + '_roc.png') }}" alt="ROC Curve" style="width:500px;">
+    {% endfor %}
+    <p><a href="{{ url_for('graphs') }}">Back to Models</a></p>
+</body>
+</html>

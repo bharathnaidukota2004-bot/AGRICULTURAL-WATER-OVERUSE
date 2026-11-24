@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Machine Learning Models Reference</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #065f46; /* Deep Forest Green */
+      --primary-light: #059669; 
+      --accent: #d1fae5; /* Pale Sage */
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --bg-light: #ffffff;
+      --bg-off-white: #f9fafb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-off-white);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Top Banner Image */
+    .top-banner {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Navbar - Glassmorphism style */
+    nav {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      color: var(--text-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 5%;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nav-left .logo-img {
+        height: 40px;
+        width: auto;
+    }
+
+    .nav-left .site-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+
+    /* Navbar buttons */
+    .nav-btn {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--primary);
+    }
+
+    .login-btn {
+      background: var(--primary);
+      color: white !important;
+      padding: 10px 24px;
+      border-radius: 50px;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .login-btn:hover {
+      background: var(--primary-light);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(6, 95, 70, 0.2);
+    }
+
+    /* Header Section */
+    .page-header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      font-size: 1.1rem;
+      color: var(--text-light);
+    }
+
+    /* Table Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+    }
+
+    .table-wrapper {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      overflow: hidden; /* For rounded corners */
+      border: 1px solid #eee;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: var(--primary);
+      color: white;
+    }
+
+    th, td {
+      padding: 20px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Zebra Striping & Hover */
+    tbody tr:nth-child(even) {
+      background-color: #fcfcfc;
+    }
+
+    tbody tr:hover {
+      background-color: var(--accent); /* Sage hover effect */
+      transition: background 0.2s ease;
+    }
+
+    td {
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    /* Formula Styling */
+    .formula {
+      font-family: 'Fira Code', monospace; /* Code font */
+      background: rgba(6, 95, 70, 0.08); /* Very light green bg */
+      color: var(--primary);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      display: inline-block;
+      border: 1px solid rgba(6, 95, 70, 0.1);
+    }
+
+    /* Footer */
+    footer {
+      background: #111827;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-top: auto;
+    }
+
+    /* Responsive Table */
+    @media (max-width: 768px) {
+      th, td { padding: 15px 10px; font-size: 0.9rem; }
+      .page-header h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <img src="static/header_image.jpg" 
+       alt="Header Image" 
+       class="top-banner">
+
+  <nav>
+    <div class="nav-left">
+        <img src="static/cmr_logo.png" alt="CMR Logo" class="logo-img">
+        <span class="site-title">Water Overuse Prediction</span>
+    </div>
+    <ul>
+      <li><a href="homepage.html" class="nav-btn">Home</a></li>
+      <li><a href="#" class="nav-btn">About</a></li>
+     <!-- <li><a href="contact.html" class="nav-btn">Contact</a></li>-->
+      <li><a href="form.html" class="nav-btn login-btn">Login</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <h1>Machine Learning Models Reference</h1>
+    <p>Definitions, intuitions, and mathematical formulas for 18 key algorithms.</p>
+  </div>
+
+  <div class="container">
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th width="25%">Model</th>
+            <th width="45%">Definition</th>
+            <th width="30%">Formula / Intuition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Linear Regression</strong></td>
+            <td>Predicts a continuous outcome based on linear relationships.</td>
+            <td><span class="formula">y = β₀ + β₁x + ε</span></td>
+          </tr>
+          <tr>
+            <td><strong>Logistic Regression</strong></td>
+            <td>Classification algorithm using sigmoid function.</td>
+            <td><span class="formula">P(y=1) = 1 / (1 + e^-(β₀+β₁x))</span></td>
+          </tr>
+          <tr>
+            <td><strong>Decision Tree</strong></td>
+            <td>Splits data based on conditions to make predictions.</td>
+            <td><span class="formula">Entropy = -Σ p log₂(p)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Random Forest</strong></td>
+            <td>Ensemble of decision trees to reduce overfitting.</td>
+            <td><span class="formula">Prediction = Mode(Aggregated Trees)</span></td>
+          </tr>
+          <tr>
+            <td><strong>K-Nearest Neighbors (KNN)</strong></td>
+            <td>Predicts based on the majority of nearest neighbors.</td>
+            <td><span class="formula">d(x,y) = √Σ(xᵢ - yᵢ)²</span></td>
+          </tr>
+          <tr>
+            <td><strong>Support Vector Machine</strong></td>
+            <td>Finds hyperplane that maximizes class margin.</td>
+            <td><span class="formula">w·x + b = 0</span></td>
+          </tr>
+          <tr>
+            <td><strong>Naive Bayes</strong></td>
+            <td>Probabilistic classifier assuming feature independence.</td>
+            <td><span class="formula">P(C|X) ∝ P(X|C)·P(C)</span></td>
+          </tr>
+          <tr>
+            <td><strong>AdaBoost</strong></td>
+            <td>Boosting technique combining weak learners.</td>
+            <td><span class="formula">F(x)=Σ αᵢ hᵢ(x)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Gradient Boosting</strong></td>
+            <td>Boosting with gradient descent optimization.</td>
+            <td><span class="formula">y = Σ fₘ(x), fₘ fits residuals</span></td>
+          </tr>
+          <tr>
+            <td><strong>XGBoost</strong></td>
+            <td>Optimized gradient boosting with regularization.</td>
+            <td><span class="formula">Obj = Loss + Ω(Complexity)</span></td>
+          </tr>
+          <tr>
+            <td><strong>LightGBM</strong></td>
+            <td>Efficient gradient boosting using leaf-wise splits.</td>
+            <td><span class="formula">Leaf-wise Growth</span></td>
+          </tr>
+          <tr>
+            <td><strong>CatBoost</strong></td>
+            <td>Boosting optimized for categorical features.</td>
+            <td><span class="formula">Ordered Boosting</span></td>
+          </tr>
+          <tr>
+            <td><strong>K-Means Clustering</strong></td>
+            <td>Partitions data into k clusters based on distance.</td>
+            <td><span class="formula">μₖ = (Σ xᵢ)/nₖ</span></td>
+          </tr>
+          <tr>
+            <td><strong>Hierarchical Clustering</strong></td>
+            <td>Builds a hierarchy of clusters using linkage.</td>
+            <td><span class="formula">d(A,B) = min/max/avg distance</span></td>
+          </tr>
+          <tr>
+            <td><strong>PCA</strong></td>
+            <td>Reduces dimensionality by maximizing variance.</td>
+            <td><span class="formula">Z = XW, W = eigenvectors</span></td>
+          </tr>
+          <tr>
+            <td><strong>Neural Networks</strong></td>
+            <td>Layered structure of neurons to learn patterns.</td>
+            <td><span class="formula">a = σ(Wx + b)</span></td>
+          </tr>
+          <tr>
+            <td><strong>CNN</strong></td>
+            <td>Specialized for image recognition with convolution filters.</td>
+            <td><span class="formula">(f * g)(t) = ∫ f(τ)g(t-τ)dτ</span></td>
+          </tr>
+          <tr>
+            <td><strong>RNN</strong></td>
+            <td>Sequential models with memory of past inputs.</td>
+            <td><span class="formula">hₜ = f(Wxₜ + Uhₜ₋₁ + b)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Water Overuse Prediction Project | All Rights Reserved
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Water Usage Prediction Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        .header-container {
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 80, 160, 0.15);
+        }
+        .header-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        .result-box {
+            background: #fff;
+            padding: 42px 60px;
+            border-radius: 16px;
+            box-shadow: 0 4px 22px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            max-width: 450px;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        .label {
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .result-text {
+            font-size: 34px;
+            font-weight: 700;
+            color: #0a66c2;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .result-text.optimal { color: #2e7d32; }
+        .result-text.overuse { color: #d93025; }
+
+        .explanation-card {
+            max-width: 500px;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 2px 10px rgba(30,60,140,0.12);
+            padding: 26px 34px;
+            margin: 0 auto;
+            color: #244;
+            font-size: 1rem;
+            line-height: 1.65em;
+        }
+        .explanation-header {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #1e88e5;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .explanation-list {
+            margin-top: 8px;
+            margin-bottom: 7px;
+            padding-left: 22px;
+            text-align: left;
+        }
+        .key-point { font-weight: 600; color: #1e88e5; }
+
+        .model-info {
+            max-width: 500px;
+            background: #f0f6ff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(30,60,140,0.08);
+            padding: 14px 18px;
+            margin: 20px auto 0 auto;
+            font-size: 1rem;
+            color: #333;
+            text-align: center;
+        }
+        .model-info strong { color: #275eda; }
+
+        .accuracy-info {
+            color: #444;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .graph-section {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .graph-section img {
+            width: 420px;
+            max-width: 95%;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+            margin: 10px;
+        }
+
+        .input-summary {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 18px;
+            margin-top: 40px;
+            max-width: 550px;
+            width: 100%;
+        }
+        .input-summary h3 {
+            text-align: center;
+            color: #0a66c2;
+            margin-bottom: 12px;
+        }
+        .input-summary table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .input-summary th, .input-summary td {
+            border-bottom: 1px solid #eee;
+            padding: 6px 10px;
+            text-align: left;
+        }
+        .input-summary th {
+            width: 45%;
+            color: #333;
+        }
+
+        .back-btn {
+            margin-top: 30px;
+            padding: 12px 20px;
+            background: #0a66c2;
+            color: #fff;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .back-btn:hover { background: #004a9f; }
+
+        @media (max-width: 600px) {
+            .result-box, .explanation-card, .model-info, .input-summary {
+                max-width: 96vw;
+                padding: 16px 6vw;
+            }
+            .result-text { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header-container">
+        <img src="{{ url_for('static', filename='header_image.jpg') }}" alt="CMR Header" />
+    </div>
+
+    <!-- Result Summary -->
+    <div class="result-box">
+        <div class="label">Predicted Water Usage for {{ name }}:</div>
+        <div class="result-text {% if 'Optimal' in result %}optimal{% else %}overuse{% endif %}">
+            {% if 'Optimal' in result %}
+            <i class="fa fa-check-circle"></i>
+            {% else %}
+            <i class="fa fa-exclamation-triangle"></i>
+            {% endif %}
+            {{ result }}
+        </div>
+        <div class="accuracy-info">
+            Accuracy of Model: {{ accuracy_score }}%
+        </div>
+    </div>
+
+    <!-- Explanation Card -->
+    <div class="explanation-card">
+        <div class="explanation-header">
+            <i class="fa fa-leaf"></i> Explanation of Prediction
+        </div>
+        {% if 'Optimal' in result %}
+        <div>
+            Based on your provided data, the system predicts <strong>optimal water usage</strong>:
+            <ul class="explanation-list">
+                <li><span class="key-point">Soil Moisture:</span> Balanced for crop growth.</li>
+                <li><span class="key-point">Rainfall:</span> Contributing sufficiently to irrigation needs.</li>
+                <li><span class="key-point">Irrigation:</span> Schedule appears efficient and steady.</li>
+                <li><span class="key-point">Nash Payoff:</span> Indicates a stable equilibrium in water allocation.</li>
+            </ul>
+            <span style="color:#2e7d32; font-weight:600;">Result:</span>
+            Efficient and sustainable water use pattern detected.
+        </div>
+        {% else %}
+        <div>
+            The system identified potential <strong>overuse or underuse</strong> in irrigation:
+            <ul class="explanation-list">
+                <li><span class="key-point">Soil Moisture:</span> Deviates from ideal range.</li>
+                <li><span class="key-point">Groundwater:</span> Rapid depletion indicates high water draw.</li>
+                <li><span class="key-point">Electricity Usage:</span> Elevated usage suggests frequent pumping.</li>
+                <li><span class="key-point">Nash Payoff:</span> Low equilibrium stability; reallocation recommended.</li>
+            </ul>
+            <span style="color:#d93025; font-weight:600;">Result:</span>
+            Water allocation imbalance detected; review irrigation schedule.
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Model Info -->
+    <div class="model-info">
+        <strong>Model Used:</strong> {{ model_used }} <br />
+        <strong>Accuracy:</strong> {{ accuracy_score }}%
+    </div>
+
+    <!-- Graph Section -->
+    <div class="graph-section">
+        {% if roc_image %}
+        <div><h3>ROC Curve</h3><img src="{{ roc_image }}" alt="ROC Curve"></div>
+        {% endif %}
+        {% if cm_image %}
+        <div><h3>Confusion Matrix</h3><img src="{{ cm_image }}" alt="Confusion Matrix"></div>
+        {% endif %}
+        {% if acc_image %}
+        <div><h3>Accuracy Chart</h3><img src="{{ acc_image }}" alt="Accuracy Chart"></div>
+        {% endif %}
+    </div>
+
+    <!-- Input Summary -->
+    <div class="input-summary">
+        <h3>Farmer Input Summary</h3>
+        <table>
+            {% for key, val in user_inputs.items() %}
+            <tr>
+                <th>{{ key.replace('_', ' ').title() }}</th>
+                <td>{{ val }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <!-- Back to Dashboard -->
+    <a href="{{ url_for('home') }}" class="back-btn">
+        <i class="fa fa-arrow-left"></i> Go Back to Dashboard
+    </a>
+</body>
+</html>
